@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pranshu Panda</title>
+<meta name="description" content="Pranshu Panda — CS at the University of Minnesota. Probabilistic ML, Bayesian optimization, and experimental design for molecules and proteins.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ecf1f4;
+  --bg2:#e1e8ed;
+  --ink:#0d1b27;
+  --mute:#566876;
+  --rule:#c3cfd8;
+  --accent:#2a5b8c;
+  --accent2:#2f8582;
+  --serif:'Newsreader',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0b1219;
+    --bg2:#111b24;
+    --ink:#dbe6ed;
+    --mute:#8196a6;
+    --rule:#243542;
+    --accent:#7db3e3;
+    --accent2:#63c0b8;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.55;font-optical-sizing:auto;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--accent)}
+::selection{background:var(--accent);color:var(--bg)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:150px 1fr;column-gap:56px}
+nav{position:sticky;top:0;align-self:start;padding-top:44px;height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding-bottom:36px}
+nav ol{list-style:none;display:grid;gap:10px;margin-top:28px}
+nav a{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;color:var(--mute);display:flex;gap:10px}
+nav a span{color:var(--accent)}
+nav a:hover,nav a.on{color:var(--ink)}
+nav .sig{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink)}
+main{padding-bottom:80px;min-width:0}
+
+header{padding:76px 0 56px;border-bottom:1px solid var(--rule)}
+h1{font-weight:300;font-size:clamp(52px,8vw,96px);line-height:.95;letter-spacing:-.025em}
+h1 em{font-style:italic;color:var(--accent)}
+.lede{margin-top:28px;max-width:34em;font-size:22px;line-height:1.45}
+.lede i{color:var(--accent2)}
+.status{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 22px}
+
+figure{margin-top:48px}
+.plot{position:relative;border:1px solid var(--rule);background:var(--bg2)}
+canvas{display:block;width:100%;height:280px;cursor:crosshair}
+figcaption{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:12px;align-items:baseline}
+figcaption p{font-size:15px;color:var(--mute);max-width:44em}
+.ctl{display:flex;gap:8px}
+button{font:inherit;font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;background:none;color:var(--ink);border:1px solid var(--ink);padding:6px 12px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--bg)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+section{padding:64px 0 8px;scroll-margin-top:0}
+.sh{display:flex;align-items:baseline;gap:16px;margin-bottom:30px}
+.sh h2{font-weight:400;font-size:15px;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.sh .mono{color:var(--accent)}
+.sh:after{content:"";flex:1;border-top:1px solid var(--rule);transform:translateY(-4px)}
+
+.row{display:grid;grid-template-columns:170px 1fr;column-gap:32px;padding:20px 0;border-top:1px solid var(--rule)}
+.row:first-of-type{border-top:0;padding-top:0}
+.when{font-family:var(--mono);font-size:12px;color:var(--mute);letter-spacing:.02em;padding-top:7px;line-height:1.6}
+.row h3{font-weight:500;font-size:21px;line-height:1.25}
+.row h3 small{font-weight:400;font-style:italic;color:var(--mute);font-size:18px}
+.row ul{margin-top:8px;list-style:none}
+.row li{position:relative;padding-left:20px;margin-top:6px;color:color-mix(in srgb,var(--ink) 88%,var(--bg))}
+.row li:before{content:"–";position:absolute;left:0;color:var(--accent)}
+.tag{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--accent2);border:1px solid color-mix(in srgb,var(--accent2) 45%,transparent);padding:1px 7px;margin-right:6px}
+.num{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:7px}
+
+.skills{display:grid;grid-template-columns:170px 1fr;row-gap:14px;column-gap:32px}
+.skills dt{font-family:var(--mono);font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em;padding-top:5px}
+.skills dd{font-size:18px}
+
+.contact{font-size:clamp(26px,4vw,40px);font-weight:300;line-height:1.25;letter-spacing:-.01em}
+.links{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 28px}
+.links a{font-family:var(--mono);font-size:13px}
+footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:860px){
+  .wrap{display:block;padding:0 20px}
+  nav{position:static;height:auto;padding:22px 0 0;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  nav ol{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:0}
+  nav .sig{display:none}
+  header{padding-top:44px}
+  .row,.skills{grid-template-columns:1fr;column-gap:0}
+  .when{padding:0 0 4px}
+  .skills dt{padding:0}
+  .skills dd{margin-bottom:6px}
+  canvas{height:240px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav aria-label="Sections">
+  <div>
+    <div class="sig">P. Panda</div>
+    <ol>
+      <li><a href="#work"><span>01</span>Work</a></li>
+      <li><a href="#projects"><span>02</span>Projects</a></li>
+      <li><a href="#education"><span>03</span>Study</a></li>
+      <li><a href="#skills"><span>04</span>Tools</a></li>
+      <li><a href="#contact"><span>05</span>Contact</a></li>
+    </ol>
+  </div>
+  <div class="mono">Minneapolis, MN</div>
+</nav>
+
+<main>
+<header>
+  <h1>Pranshu<br><em>Panda</em></h1>
+  <p class="lede">I work on <i>probabilistic machine learning</i> for experimental design — deciding which molecule or protein to test next when every experiment is expensive.</p>
+  <div class="status mono">
+    <span>M.S. CS, University of Minnesota</span>
+    <span>Research with Prof. Aryan Deshwal</span>
+  </div>
+
+  <figure>
+    <div class="plot"><canvas id="gp" aria-label="Interactive Gaussian process regression with an acquisition function" role="img"></canvas></div>
+    <figcaption>
+      <p><b class="mono" style="color:var(--ink)">Fig. 1</b>&ensp;A Gaussian process modelling an unknown function. The band is its uncertainty; the strip below is an upper-confidence acquisition score. Click the plot to add an observation, or let it choose.</p>
+      <div class="ctl">
+        <button id="step">Sample next</button>
+        <button id="reset">Reset</button>
+      </div>
+    </figcaption>
+    <div class="mono" id="readout" style="margin-top:8px"></div>
+  </figure>
+</header>
+
+<section id="work">
+  <div class="sh"><span class="mono">01</span><h2>Work</h2></div>
+
+  <div class="row">
+    <div class="when">Sept 2026 —<br>present</div>
+    <div>
+      <h3>Graduate Research Assistant <small>University of Minnesota</small></h3>
+      <ul><li>Pairing LLM agents with evolutionary algorithms to automate experimental design for protein engineering.</li></ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Sept 2025 —<br>May 2026</div>
+    <div>
+      <h3>Undergraduate Teaching Assistant <small>University of Minnesota</small></h3>
+      <ul><li>Led weekly labs and debugging sessions for 600+ students in advanced programming principles and computational linear algebra.</li>
+      <li>Mentored on recursion, software testing, functional programming and algorithmic problem solving.</li></ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Mar 2025 —<br>May 2026</div>
+    <div>
+      <h3>Undergraduate Researcher <small>University of Minnesota</small></h3>
+      <ul><li>Probabilistic ML for experimental design on molecules and proteins, under Prof. Aryan Deshwal.</li>
+      <li>Built GPU-accelerated Bayesian optimization pipelines in PyTorch for 60-dimensional combinatorial problems.</li>
+      <li>Implemented evolutionary (genetic) search strategies, a 3.6% improvement over standard PyTorch baselines.</li></ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Jun – Sept 2024<br>Dec 2025 – Jan 2026</div>
+    <div>
+      <h3>Research Intern <small>IIT Delhi, Computer Science</small></h3>
+      <ul><li>Developed a PyTorch hyperparameter optimization framework that tunes throughput of cache-management policies in a black-box systems setting.</li>
+      <li>Built a Python tool to visualize queue states, packet flows and request latencies from simulation traces.</li></ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Jun – Aug 2023</div>
+    <div>
+      <h3>Software Engineering Intern <small>Stryker, Delhi</small></h3>
+      <ul><li>Fine-tuned YOLOv7 on a custom 3,000-image dataset, reaching 0.88 mAP for real-time operating-room equipment detection in Endoscopy R&amp;D.</li>
+      <li>Refactored UI layout and made the OCULAN Surgical Light service tool responsive across clinical screen resolutions.</li>
+      <li>Supported the Sustainability Solutions team with tooling for reprocessing single-use medical devices.</li></ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sh"><span class="mono">02</span><h2>Projects</h2></div>
+
+  <div class="row">
+    <div class="when">Jan – May 2026</div>
+    <div>
+      <h3>TOST <small>Threshold-based Object Sorting Technique</small></h3>
+      <ul><li>Autonomous object sorting in ROS2 and Gazebo. An OpenCV color-segmentation pipeline finds block centroids and drives a 5-DOF arm to sort them into bins.</li></ul>
+      <span class="tag">ROS2</span><span class="tag">OpenCV</span><span class="tag">Gazebo</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Nov – Dec 2025</div>
+    <div>
+      <h3>Fine-Tuning Transformers with LoRA <small>a comparative study</small></h3>
+      <ul><li>Benchmarked LoRA against full and head-only fine-tuning on SST-2 and IMDB. LoRA scored higher on SST-2 (94.27% vs 93.81%) and matched on IMDB (~95.5%), a strong case for PEFT over full fine-tuning.</li></ul>
+      <span class="tag">PyTorch</span><span class="tag">Hugging Face</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Sept – Dec 2024</div>
+    <div>
+      <h3>Shortest Paths for Trivially Partitioned Graphs</h3>
+      <ul><li>Analyzed and optimized Dijkstra and A* with hierarchical graph partitioning, cutting runtime by up to 52.7% on large graphs.</li></ul>
+      <span class="tag">Python</span><span class="tag">Algorithms</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="when">Sept 2023 –<br>Dec 2024</div>
+    <div>
+      <h3>WINGS <small>UMN Rocket Team ground station</small></h3>
+      <ul><li>Worked with Avionics on the third-generation ground station for live rocket telemetry (TypeScript, React, UnoCSS), and wrote a simulator to test serial I/O and end-to-end data flow through Rust API pipelines.</li></ul>
+      <span class="tag">TypeScript</span><span class="tag">React</span><span class="tag">Rust</span>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="sh"><span class="mono">03</span><h2>Study</h2></div>
+  <div class="row">
+    <div class="when">Expected<br>May 2028</div>
+    <div>
+      <h3>M.S. Computer Science <small>University of Minnesota, Twin Cities</small></h3>
+      <ul><li>Advanced Machine Learning, Cloud Computing</li></ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="when">May 2026</div>
+    <div>
+      <h3>B.S. Computer Science <small>University of Minnesota, Twin Cities</small></h3>
+      <ul><li>GPA 3.74 / 4.00, Dean’s List five times</li>
+      <li>ML, NLP, Robotics, Numerical Algorithms, Operating Systems, Software Development, UI, Algorithms and Data Structures</li></ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sh"><span class="mono">04</span><h2>Tools</h2></div>
+  <dl class="skills">
+    <dt>Languages</dt><dd>Python, C, SQL, Java, Bash, TypeScript, HTML/CSS</dd>
+    <dt>Machine learning</dt><dd>Deep learning (Transformers, CNNs), LLMs, fine-tuning, Bayesian and hyperparameter optimization, reinforcement learning, supervised and unsupervised learning, search algorithms, GPU acceleration</dd>
+    <dt>Frameworks</dt><dd>PyTorch, BoTorch, scikit-learn, Pandas, OpenCV, Hugging Face, ROS2, Git</dd>
+  </dl>
+</section>
+
+<section id="contact">
+  <div class="sh"><span class="mono">05</span><h2>Contact</h2></div>
+  <p class="contact">Working on something where experiments are costly and intuition runs thin? <a href="mailto:work.pranshupanda@gmail.com">Write to me.</a></p>
+  <div class="links">
+    <a href="mailto:work.pranshupanda@gmail.com">work.pranshupanda@gmail.com</a>
+    <a href="https://github.com/pranshupanda">github.com/pranshupanda</a>
+    <a href="https://linkedin.com/in/pranshu-panda">linkedin.com/in/pranshu-panda</a>
+  </div>
+  <footer class="mono"><span>© 2026 Pranshu Panda</span><span>Set in Newsreader &amp; IBM Plex Mono</span></footer>
+</section>
+</main>
+</div>
+
+<script>
+/* Fig. 1 — tiny 1-D Gaussian process with UCB acquisition */
+(function(){
+  const cv=document.getElementById('gp'),ctx=cv.getContext('2d');
+  const out=document.getElementById('readout');
+  const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const f=x=>0.8*Math.sin(8*x)+0.5*Math.sin(19*x+1.2)*(1-x)-0.3*x;
+  const G=160, grid=Array.from({length:G},(_,i)=>i/(G-1));
+  const LS=0.07, SV=0.6, NOISE=1e-3, BETA=2, YL=[-1.9,1.9];
+  let X=[],Y=[],post=[],next=0.5,W=0,H=0,timer=null;
+
+  const k=(a,b)=>SV*Math.exp(-((a-b)**2)/(2*LS*LS));
+  function chol(A){const n=A.length,L=A.map(()=>new Array(n).fill(0));
+    for(let i=0;i<n;i++)for(let j=0;j<=i;j++){let s=A[i][j];for(let p=0;p<j;p++)s-=L[i][p]*L[j][p];
+      L[i][j]=i===j?Math.sqrt(Math.max(s,1e-9)):s/L[j][j];}return L;}
+  const fs=(L,b)=>{const y=[];for(let i=0;i<b.length;i++){let s=b[i];for(let j=0;j<i;j++)s-=L[i][j]*y[j];y[i]=s/L[i][i];}return y;};
+  const bs=(L,y)=>{const n=y.length,x=new Array(n);for(let i=n-1;i>=0;i--){let s=y[i];for(let j=i+1;j<n;j++)s-=L[j][i]*x[j];x[i]=s/L[i][i];}return x;};
+
+  function fit(){
+    const n=X.length;
+    if(!n){post=grid.map(()=>({m:0,s:Math.sqrt(SV)}));}
+    else{
+      const mu0=Y.reduce((a,b)=>a+b,0)/n;
+      const K=X.map((a,i)=>X.map((b,j)=>k(a,b)+(i===j?NOISE:0)));
+      const L=chol(K), al=bs(L,fs(L,Y.map(y=>y-mu0)));
+      post=grid.map(g=>{const ks=X.map(x=>k(g,x));
+        const m=mu0+ks.reduce((s,v,i)=>s+v*al[i],0);
+        const v=fs(L,ks);const s2=SV-v.reduce((s,q)=>s+q*q,0);
+        return{m,s:Math.sqrt(Math.max(s2,0))};});
+    }
+    let best=-1,bi=0;post.forEach((p,i)=>{const u=p.m+BETA*p.s;if(u>best){best=u;bi=i;}});
+    next=grid[bi];
+    out.textContent=`n = ${n}   ·   next x = ${next.toFixed(3)}   ·   best y = ${n?Math.max(...Y).toFixed(3):'—'}`;
+  }
+  function size(){const r=window.devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;cv.width=W*r;cv.height=H*r;ctx.setTransform(r,0,0,r,0,0);}
+  const px=x=>12+x*(W-24);
+  const split=()=>H*0.78;
+  const py=y=>{const h=split()-14;return 8+(1-(y-YL[0])/(YL[1]-YL[0]))*h;};
+
+  function draw(){
+    const ink=css('--ink'),mute=css('--mute'),rule=css('--rule'),ac=css('--accent'),ac2=css('--accent2');
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle=rule;ctx.lineWidth=1;ctx.beginPath();
+    for(let i=0;i<=10;i++){const x=px(i/10);ctx.moveTo(x,6);ctx.lineTo(x,split());}
+    ctx.stroke();
+    // truth
+    ctx.setLineDash([3,4]);ctx.strokeStyle=mute;ctx.beginPath();
+    grid.forEach((g,i)=>{const x=px(g),y=py(f(g));i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();ctx.setLineDash([]);
+    // band
+    ctx.fillStyle=ac;ctx.globalAlpha=.16;ctx.beginPath();
+    grid.forEach((g,i)=>{const y=py(post[i].m+2*post[i].s);i?ctx.lineTo(px(g),y):ctx.moveTo(px(g),y);});
+    for(let i=G-1;i>=0;i--)ctx.lineTo(px(grid[i]),py(post[i].m-2*post[i].s));
+    ctx.closePath();ctx.fill();ctx.globalAlpha=1;
+    // mean
+    ctx.strokeStyle=ac;ctx.lineWidth=1.6;ctx.beginPath();
+    grid.forEach((g,i)=>{const x=px(g),y=py(post[i].m);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
+    // acquisition strip
+    const u=post.map(p=>p.m+BETA*p.s),lo=Math.min(...u),hi=Math.max(...u),top=split()+12,bot=H-8;
+    ctx.strokeStyle=rule;ctx.beginPath();ctx.moveTo(8,split()+4);ctx.lineTo(W-8,split()+4);ctx.stroke();
+    ctx.fillStyle=ac2;ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(px(0),bot);
+    grid.forEach((g,i)=>ctx.lineTo(px(g),bot-((u[i]-lo)/(hi-lo||1))*(bot-top)));
+    ctx.lineTo(px(1),bot);ctx.closePath();ctx.fill();ctx.globalAlpha=1;
+    // next marker
+    ctx.strokeStyle=ac2;ctx.lineWidth=1;ctx.setLineDash([2,3]);ctx.beginPath();ctx.moveTo(px(next),6);ctx.lineTo(px(next),bot);ctx.stroke();ctx.setLineDash([]);
+    // observations
+    X.forEach((x,i)=>{ctx.fillStyle=css('--bg');ctx.strokeStyle=ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(px(x),py(Y[i]),4.5,0,7);ctx.fill();ctx.stroke();
+      ctx.fillStyle=ink;ctx.beginPath();ctx.arc(px(x),py(Y[i]),1.6,0,7);ctx.fill();});
+    ctx.font='11px '+css('--mono');ctx.fillStyle=mute;
+    ctx.fillText('f(x)',16,20);ctx.fillText('acquisition',16,split()+26);
+  }
+  function add(x){X.push(x);Y.push(f(x));fit();draw();}
+  function reset(){clearTimeout(timer);X=[];Y=[];fit();draw();}
+  function intro(){let n=0;const go=()=>{if(n++<5){add(n===1?0.15:next);timer=setTimeout(go,650);}};timer=setTimeout(go,500);}
+
+  cv.addEventListener('click',e=>{clearTimeout(timer);const r=cv.getBoundingClientRect();add(Math.min(1,Math.max(0,(e.clientX-r.left-12)/(r.width-24))));});
+  document.getElementById('step').onclick=()=>{clearTimeout(timer);add(next);};
+  document.getElementById('reset').onclick=reset;
+  addEventListener('resize',()=>{size();draw();});
+  matchMedia('(prefers-color-scheme:dark)').addEventListener('change',draw);
+
+  size();fit();draw();
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){[0.15,0.5,0.8].forEach(x=>add(x));}else intro();
+
+  // nav highlight
+  const links=[...document.querySelectorAll('nav a')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('on',l.hash==='#'+e.target.id));}),{rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('section').forEach(s=>io.observe(s));
+})();
+</script>
+</body>
+</html>
